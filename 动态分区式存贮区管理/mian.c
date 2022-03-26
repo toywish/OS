@@ -38,18 +38,21 @@ void init_rd(rd_list *t)
 void print_rd(rd_list *t)
 {
     printf("*******************当前内存使用情况*******************\n");
+    printf("分区号\t起始地址\t分区大小\t状态\n");
+    int i = 0;
+    int addr = 0;
     rd_list *p = t->next;
-    for (p; p != NULL; p = p->next)
+    for (p; p != NULL; i++,addr += p->size,p = p->next)
     {
+        printf("%d\t%d\t\t%d\t\t",i,addr,p->size);
         if (p->flag)
         {
-            printf("已使用\t");
+            printf("已分配\n");
         }
         else
         {
-            printf("未使用\t");
+            printf("空闲\n");
         }
-        printf("%d\n", p->size);
     }
     printf("*****************************************************\n");
     printf("\n");
@@ -369,8 +372,8 @@ int get_user_choose()
 int main()
 {
     //获取用户合法输入
-    //int flag = get_user_choose();
-    int flag = 3;
+    int flag = get_user_choose();
+    //int flag = 3;
     //初始化内存
     rd_list *rd = (rd_list *)malloc(sizeof(rd_list));
     init_rd(rd);
